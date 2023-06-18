@@ -14,8 +14,8 @@ class SecondPage extends StatefulWidget {
 class _SecondPageState extends State<SecondPage> {
   final ImagePicker _picker = ImagePicker();
 
-  Future<File?> _getImage() async {
-    final image = await _picker.pickImage(source: ImageSource.gallery);
+  Future<File?> _getImage(ImageSource source) async {
+    final image = await _picker.pickImage(source: source);
     if (image != null) {
       return File(image.path);
     }
@@ -29,12 +29,25 @@ class _SecondPageState extends State<SecondPage> {
         title: Text('Second Page'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            final image = await _getImage();
-            Navigator.pop(context, image);
-          },
-          child: Text('Upload Photo'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                final image = await _getImage(ImageSource.gallery);
+                Navigator.pop(context, image);
+              },
+              child: Text('Choose Photo'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                final image = await _getImage(ImageSource.camera);
+                Navigator.pop(context, image);
+              },
+              child: Text('Take Photo'),
+            ),
+          ],
         ),
       ),
     );
